@@ -1,6 +1,6 @@
 var weather = new XMLHttpRequest();
 weather.open("GET", "https://api.wunderground.com/api/fa5715ba5adff2ac/conditions/q/CA/Los_angeles.json", false);
-weather.send(null);
+weather.send();
 
 var r = JSON.parse(weather.response);
 
