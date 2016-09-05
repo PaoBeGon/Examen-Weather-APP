@@ -1,56 +1,20 @@
-        $(document).ready(function() {
-            $("#pedir").click(function(){
-            $.simpleWeather({
-                woeid: '329747',
-                unit: 'c',
-                success: function(weather) {
-                    var sBasicTemp = weather.temp+'&deg;'+weather.units.temp;
-                    var sBasicIcon = weather.thumbnail;
-                    var weatherForecastAll = '<ul class="weatherList">';
-                    var listClass = '';
-                    
-                    for(var i=0;i<weather.forecast.length;i++) {
-                        if(i == (weather.forecast.length-1)){listClass = ' class="last"';}
-                        if(i == 0) {
-                            weatherForecastDay = 'Heute';
-                        } else {
-                            var forcastDay = weather.forecast[i].day;
-                            switch(forcastDay){
-                                case('Mon'):
-                                    weatherForecastDay = 'Montag';
-                                    break;
-                                case('Tue'):
-                                    weatherForecastDay = 'Dienstag';
-                                    break;
-                                case('Wed'):
-                                    weatherForecastDay = 'Mittwoch';
-                                    break;
-                                case('Thu'):
-                                    weatherForecastDay = 'Donnerstag';
-                                    break;
-                                case('Fri'):
-                                    weatherForecastDay = 'Freitag';
-                                    break;
-                                case('Sat'):
-                                    weatherForecastDay = 'Samstag';
-                                    break;
-                                case('Sun'):
-                                    weatherForecastDay = 'Sonntag';
-                                    break;
-                            }
-                        }
-                        weatherForecastAll += '<li'+listClass+'><div class="clear weatherListCont">'+weatherForecastDay+'</div><div class="weatherListCont"><img src="'+weather.forecast[i].thumbnail+'" alt="" /></div><div class="weatherListCont">'+weather.forecast[i].low+'&deg;'+weather.units.temp+' - '+weather.forecast[i].high+'&deg;'+weather.units.temp+'</div></li>';
-                    }
-                    weatherForecastAll += '</ul>';
+var weather = new XMLHttpRequest();
+weather.open("GET", "http://api.wunderground.com/api/fa5715ba5adff2ac/conditions/q/CA/Los_angeles.json", false);
+weather.send(null);
 
-                        $(".weatherBasicIcon").html('<img src="'+sBasicIcon+'" alt="" />');
-                        $(".weatherBasicTemp").html(sBasicTemp);
-                        $(".weatherBasicTempHead").html('<img width="45px" height="auto" src="'+sBasicIcon+'" alt="" /> '+sBasicTemp);
-                        $(".weatherForecastAll").html(weatherForecastAll);
-                },
-                error: function(error) {
-                    $(".weatherBasicTempHead").html('---');
-                }
-            });
-        });
-        });
+var r = JSON.parse(weather.response);
+
+var dis = "Lugar: " + r.current_observation.display_location.full + "  <p>";
+var temp = r.current_observation.temperature_string+ "  <p>";
+
+function getWeather(id,res) {
+  document.getElementById(id).innerHTML=res;
+}
+getWeather("weather",dis);
+getWeather("temp",temp);
+
+function getWeather(id,res) {
+  document.getElementById(id).innerHTML=res;
+}
+getWeather("weather2",dis);
+getWeather("temp2",temp);
